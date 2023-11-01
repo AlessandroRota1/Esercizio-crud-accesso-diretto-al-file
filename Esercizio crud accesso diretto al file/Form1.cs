@@ -45,5 +45,6 @@ namespace Esercizio_crud_accesso_diretto_al_file
             Aggiunta(p[dim].prodotto, p[dim].prezzo, filePath);
             dim++;
         }
+
     }
 }
