@@ -23,7 +23,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
         public Prezzoprodotto[] p = new Prezzoprodotto[100];
         public int dim = 0;
         public string filePath = "file.txt";
-        public int riga = 64;
+        public int riempi = 64;
         public Form1()
         {
             InitializeComponent();
@@ -33,9 +33,30 @@ namespace Esercizio_crud_accesso_diretto_al_file
         {
             var apertura = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
             StreamWriter write = new StreamWriter(apertura);
-            write.WriteLine($"{nome};{prezzo};1;0".PadRight(riga - 4) + "##");
+            write.WriteLine($"{nome};{prezzo};1;0;".PadRight(riempi - 4) + "##");
             write.Close();
 
+        }
+
+        public int Ricerca(string nome, string filePath)
+        {
+            int riga = 0;
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string rigaletta;
+                while ((rigaletta = sr.ReadLine()) != null)
+                {
+                    string[] dati = rigaletta.Split(';');
+                    if (dati[3] == "0" && dati[0] == nome)
+                    {
+                        sr.Close();
+                        return riga;
+                    }
+                    riga++;
+                }
+                sr.Close();
+            }
+            return -1;
         }
 
         private void C(object sender, EventArgs e)
@@ -46,5 +67,18 @@ namespace Esercizio_crud_accesso_diretto_al_file
             dim++;
         }
 
+        private void R(object sender, EventArgs e)
+        {
+            string a = Ricercato.Text;
+            int trovato = Ricerca(a, filePath);
+            if (trovato==-1)
+            {
+                MessageBox.Show("Il prodotto non è stato trovato");
+            }
+            else
+            {
+                MessageBox.Show("Il prodotto si trova nella riga " + trovato);
+            }
+        }
     }
 }
