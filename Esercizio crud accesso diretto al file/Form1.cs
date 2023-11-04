@@ -38,6 +38,26 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         }
 
+        public int ricercaindice(string nome, string Filepath)
+        {
+            int riga = 0;
+            using (StreamReader sr = File.OpenText(Filepath))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] dati = line.Split(';');
+                    if (dati[3] == "0" && dati[0] == nome)
+                    {
+                        sr.Close();
+                        return riga;
+                    }
+                    riga++;
+                }
+            }
+            return -1;
+        }
+
         public int Ricerca(string nome, string filePath)
         {
             int riga = 0;
@@ -79,6 +99,20 @@ namespace Esercizio_crud_accesso_diretto_al_file
             {
                 MessageBox.Show("Il prodotto si trova nella riga " + trovato);
             }
+        }
+
+        private void Modif(object sender, EventArgs e)
+        {
+            int indice = ricercaindice(Prodvecchio.Text,filePath);
+            string linea;
+            var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
+            BinaryWriter writer = new BinaryWriter(file);
+            file.Seek(riempi * indice, SeekOrigin.Begin);
+            linea = $"{Prodnuovo.Text};{Prezzonuovo.Text};1;0;".PadRight(riempi - 4) + "##";
+            byte[] bytes = Encoding.UTF8.GetBytes(linea);
+            writer.Write(bytes, 0, bytes.Length);
+            writer.Close();
+            file.Close();
         }
     }
 }
