@@ -43,6 +43,9 @@
             this.Prezzonuovo = new System.Windows.Forms.TextBox();
             this.Prodnuovo = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.Proddacanc = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Prodotto
@@ -79,7 +82,7 @@
             // 
             // Create
             // 
-            this.Create.Location = new System.Drawing.Point(221, 41);
+            this.Create.Location = new System.Drawing.Point(229, 41);
             this.Create.Name = "Create";
             this.Create.Size = new System.Drawing.Size(109, 36);
             this.Create.TabIndex = 4;
@@ -89,7 +92,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(221, 188);
+            this.button1.Location = new System.Drawing.Point(229, 188);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(109, 36);
             this.button1.TabIndex = 5;
@@ -171,11 +174,40 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Modif);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(444, 41);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(143, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Inserisci il nome del prodotto:";
+            // 
+            // Proddacanc
+            // 
+            this.Proddacanc.Location = new System.Drawing.Point(447, 57);
+            this.Proddacanc.Name = "Proddacanc";
+            this.Proddacanc.Size = new System.Drawing.Size(100, 20);
+            this.Proddacanc.TabIndex = 16;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(608, 40);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(93, 37);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Cancella prodotto:";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.D);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.Proddacanc);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Prodnuovo);
             this.Controls.Add(this.Prezzonuovo);
@@ -215,6 +247,9 @@
         private System.Windows.Forms.TextBox Prezzonuovo;
         private System.Windows.Forms.TextBox Prodnuovo;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox Proddacanc;
+        private System.Windows.Forms.Button button3;
     }
 }
 
