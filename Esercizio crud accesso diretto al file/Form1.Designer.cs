@@ -49,6 +49,7 @@
             this.Cancellfisica = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.Prodcancfis = new System.Windows.Forms.TextBox();
+            this.Reset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Prodotto
@@ -229,11 +230,22 @@
             this.Prodcancfis.Size = new System.Drawing.Size(100, 20);
             this.Prodcancfis.TabIndex = 20;
             // 
+            // Reset
+            // 
+            this.Reset.Location = new System.Drawing.Point(577, 314);
+            this.Reset.Name = "Reset";
+            this.Reset.Size = new System.Drawing.Size(116, 98);
+            this.Reset.TabIndex = 21;
+            this.Reset.Text = "Ripristina il file:";
+            this.Reset.UseVisualStyleBackColor = true;
+            this.Reset.Click += new System.EventHandler(this.Reset_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Reset);
             this.Controls.Add(this.Prodcancfis);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Cancellfisica);
@@ -286,6 +298,7 @@
         private System.Windows.Forms.Button Cancellfisica;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox Prodcancfis;
+        private System.Windows.Forms.Button Reset;
     }
 }
 

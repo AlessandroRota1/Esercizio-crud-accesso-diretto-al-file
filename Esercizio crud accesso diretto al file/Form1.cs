@@ -207,7 +207,15 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 }
 
             }
+
+        private void Reset_Click(object sender, EventArgs e)
+        {
+            var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read);
+            StreamWriter sw = new StreamWriter(file);
+            sw.Write(string.Empty);
+            sw.Close();
         }
+    }
     }
 
 
