@@ -163,8 +163,51 @@ namespace Esercizio_crud_accesso_diretto_al_file
             byte[] bytes = Encoding.UTF8.GetBytes(line);
             writer.Write(bytes, 0, bytes.Length);
             writer.Close();
+            writer.Close();
             file.Close();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Cancellfisica_Click(object sender, EventArgs e)
+        {
+                int x = ricercaindice(Prodcancfis.Text);
+                if (Prodcancfis.Text == string.Empty)
+                {
+                    MessageBox.Show("Inserisci un elemento da cancellare");
+                }
+                else if (x == -1)
+                {
+                    MessageBox.Show("L'elemento non è stato trovato");
+                }
+                else
+                {
+                    int indice = ricercaindice(Prodcancfis.Text);
+                    string[] linea = File.ReadAllLines(filePath);
+                    for (int i = indice; i < linea.Length - 1; i++)
+                    {
+                        linea[i] = linea[i + 1];
+                    }
+
+                    var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read);
+                    StreamWriter sw = new StreamWriter(file);
+                    sw.Write(string.Empty);
+                    sw.Close();
+
+                    var files = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
+                    StreamWriter sws = new StreamWriter(files);
+                    for (int i = 0; i < linea.Length - 1; i++)
+                    {
+                        sws.WriteLine(linea[i]);
+                    }
+                    sws.Close();
+                }
+
+            }
         }
     }
 
-}
+

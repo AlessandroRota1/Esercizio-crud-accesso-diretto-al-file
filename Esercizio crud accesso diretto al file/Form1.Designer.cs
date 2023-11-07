@@ -46,6 +46,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Proddacanc = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.Cancellfisica = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.Prodcancfis = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Prodotto
@@ -192,19 +195,48 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(608, 40);
+            this.button3.Location = new System.Drawing.Point(593, 41);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(93, 37);
+            this.button3.Size = new System.Drawing.Size(157, 37);
             this.button3.TabIndex = 17;
-            this.button3.Text = "Cancella prodotto:";
+            this.button3.Text = "Cancella prodotto logicamente (recuperabile):";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.D);
+            // 
+            // Cancellfisica
+            // 
+            this.Cancellfisica.Location = new System.Drawing.Point(593, 172);
+            this.Cancellfisica.Name = "Cancellfisica";
+            this.Cancellfisica.Size = new System.Drawing.Size(157, 37);
+            this.Cancellfisica.TabIndex = 18;
+            this.Cancellfisica.Text = "Cancella prodotto fisicamente:";
+            this.Cancellfisica.UseVisualStyleBackColor = true;
+            this.Cancellfisica.Click += new System.EventHandler(this.Cancellfisica_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(444, 172);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(143, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Inserisci il nome del prodotto:";
+            // 
+            // Prodcancfis
+            // 
+            this.Prodcancfis.Location = new System.Drawing.Point(447, 188);
+            this.Prodcancfis.Name = "Prodcancfis";
+            this.Prodcancfis.Size = new System.Drawing.Size(100, 20);
+            this.Prodcancfis.TabIndex = 20;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Prodcancfis);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.Cancellfisica);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.Proddacanc);
             this.Controls.Add(this.label7);
@@ -225,6 +257,7 @@
             this.Controls.Add(this.Prodotto);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -250,6 +283,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox Proddacanc;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Cancellfisica;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox Prodcancfis;
     }
 }
 
