@@ -51,6 +51,9 @@
             this.Prodcancfis = new System.Windows.Forms.TextBox();
             this.Reset = new System.Windows.Forms.Button();
             this.Apri = new System.Windows.Forms.Button();
+            this.Recupera = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.proddarecu = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Prodotto
@@ -251,11 +254,40 @@
             this.Apri.UseVisualStyleBackColor = true;
             this.Apri.Click += new System.EventHandler(this.Apri_Click);
             // 
+            // Recupera
+            // 
+            this.Recupera.Location = new System.Drawing.Point(593, 101);
+            this.Recupera.Name = "Recupera";
+            this.Recupera.Size = new System.Drawing.Size(157, 37);
+            this.Recupera.TabIndex = 23;
+            this.Recupera.Text = "Recupera prodotto cancellato:";
+            this.Recupera.UseVisualStyleBackColor = true;
+            this.Recupera.Click += new System.EventHandler(this.Recupera_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(444, 93);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(143, 13);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Inserisci il nome del prodotto:";
+            // 
+            // proddarecu
+            // 
+            this.proddarecu.Location = new System.Drawing.Point(447, 110);
+            this.proddarecu.Name = "proddarecu";
+            this.proddarecu.Size = new System.Drawing.Size(100, 20);
+            this.proddarecu.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.proddarecu);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.Recupera);
             this.Controls.Add(this.Apri);
             this.Controls.Add(this.Reset);
             this.Controls.Add(this.Prodcancfis);
@@ -312,6 +344,9 @@
         private System.Windows.Forms.TextBox Prodcancfis;
         private System.Windows.Forms.Button Reset;
         private System.Windows.Forms.Button Apri;
+        private System.Windows.Forms.Button Recupera;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox proddarecu;
     }
 }
 

@@ -102,6 +102,47 @@ namespace Esercizio_crud_accesso_diretto_al_file
             }
             return -1;
         }
+
+        public string[] ricercaproddarecu(string nome)
+        {
+            int riga = 0;
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] dati = line.Split(';');
+                    if (dati[3] == "1" && dati[0] == nome)
+                    {
+                        sr.Close();
+                        return dati;
+                    }
+                    riga++;
+                }
+            }
+            return null;
+        }
+        public int ricercaindicedarecu(string nome)
+        {
+            int riga = 0;
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] dati = line.Split(';');
+                    if (dati[3] == "1" && dati[0] == nome)
+                    {
+                        sr.Close();
+                        return riga;
+                    }
+                    riga++;
+                }
+            }
+            return -1;
+        }
+
+
         private void C(object sender, EventArgs e)
         {
             double prezzo;
@@ -222,6 +263,21 @@ namespace Esercizio_crud_accesso_diretto_al_file
         {
             string percorso = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), filePath);
             Process.Start(percorso);
+        }
+
+        private void Recupera_Click(object sender, EventArgs e)
+        {
+            int indice=(ricercaindicedarecu(proddarecu.Text));
+            string[] prodotto = ricercaproddarecu(proddarecu.Text);
+            string line;
+            var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
+            BinaryWriter writer = new BinaryWriter(file);
+            file.Seek(riempi * indice, SeekOrigin.Begin);
+            line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##";
+            byte[] bytes = Encoding.UTF8.GetBytes(line);
+            writer.Write(bytes, 0, bytes.Length);
+            writer.Close();
+            file.Close();
         }
     }
     }
