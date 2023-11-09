@@ -50,6 +50,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.Prodcancfis = new System.Windows.Forms.TextBox();
             this.Reset = new System.Windows.Forms.Button();
+            this.Apri = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Prodotto
@@ -240,11 +241,22 @@
             this.Reset.UseVisualStyleBackColor = true;
             this.Reset.Click += new System.EventHandler(this.Reset_Click);
             // 
+            // Apri
+            // 
+            this.Apri.Location = new System.Drawing.Point(447, 317);
+            this.Apri.Name = "Apri";
+            this.Apri.Size = new System.Drawing.Size(116, 98);
+            this.Apri.TabIndex = 22;
+            this.Apri.Text = "Apri il file:";
+            this.Apri.UseVisualStyleBackColor = true;
+            this.Apri.Click += new System.EventHandler(this.Apri_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Apri);
             this.Controls.Add(this.Reset);
             this.Controls.Add(this.Prodcancfis);
             this.Controls.Add(this.label8);
@@ -299,6 +311,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox Prodcancfis;
         private System.Windows.Forms.Button Reset;
+        private System.Windows.Forms.Button Apri;
     }
 }
 

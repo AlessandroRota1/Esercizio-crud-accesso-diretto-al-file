@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
@@ -206,7 +208,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                     sws.Close();
                 }
 
-            }
+        }
 
         private void Reset_Click(object sender, EventArgs e)
         {
@@ -214,6 +216,12 @@ namespace Esercizio_crud_accesso_diretto_al_file
             StreamWriter sw = new StreamWriter(file);
             sw.Write(string.Empty);
             sw.Close();
+        }
+
+        private void Apri_Click(object sender, EventArgs e)
+        {
+            string percorso = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), filePath);
+            Process.Start(percorso);
         }
     }
     }
