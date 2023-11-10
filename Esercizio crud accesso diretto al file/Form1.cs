@@ -146,23 +146,26 @@ namespace Esercizio_crud_accesso_diretto_al_file
         private void C(object sender, EventArgs e)
         {
             double prezzo;
-            if (double.TryParse(Prezzo.Text, out prezzo)) //Inserimento del prezzo con controllo sul valore numerico
+            if (Prodotto.Text == String.Empty)
             {
-                if (Prodotto.Text != "")
-                {
-                    p[dim].prodotto = Prodotto.Text;
-                    p[dim].prezzo = prezzo;
-                    Aggiunta(p[dim].prodotto, p[dim].prezzo, filePath);
-                    dim++;
-                }
-                else
-                {
-                    MessageBox.Show("Inserisci un prodotto");
-                }
+                MessageBox.Show("Inserisci un prodotto all'interno della textbox");
             }
             else
             {
-                MessageBox.Show("Il carattere inserito non è un numero");
+                if (double.TryParse(Prezzo.Text, out prezzo)) //Inserimento del prezzo con controllo sul valore numerico
+                {
+                    if (Prodotto.Text != "")
+                    {
+                        p[dim].prodotto = Prodotto.Text;
+                        p[dim].prezzo = prezzo;
+                        Aggiunta(p[dim].prodotto, p[dim].prezzo, filePath);
+                        dim++;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Il carattere inserito nel prezzo non è un numero");
+                }
             }
         }
 
@@ -172,7 +175,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
             int trovato = Ricerca(a, filePath);
             if (trovato == -1)
             {
-                MessageBox.Show("Il prodotto non è stato trovato");
+                MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
             }
             else
             {
@@ -182,32 +185,65 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void Modif(object sender, EventArgs e)
         {
-            int indice = ricercaindice(Prodvecchio.Text);
-            string line;
-            var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-            BinaryWriter writer = new BinaryWriter(file);
-            file.Seek(riempi * indice, SeekOrigin.Begin);
-            line = $"{Prodnuovo.Text};{Prezzonuovo.Text};1;0;".PadRight(riempi - 4) + "##";
-            byte[] bytes = Encoding.UTF8.GetBytes(line);
-            writer.Write(bytes, 0, bytes.Length);
-            writer.Close();
-            file.Close();
+            if (Prodvecchio.Text == String.Empty)
+            {
+                MessageBox.Show("Inserisci un prodotto da modificare");
+            }
+            else
+            {
+                if (ricercaindice(Prodvecchio.Text) == -1)
+                {
+                    MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
+                }
+                else
+                {
+                    double prezzo;
+                    if (double.TryParse(Prezzonuovo.Text, out prezzo))
+                    {
+                        int indice = ricercaindice(Prodvecchio.Text);
+                        string line;
+                        var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
+                        BinaryWriter writer = new BinaryWriter(file);
+                        file.Seek(riempi * indice, SeekOrigin.Begin);
+                        line = $"{Prodnuovo.Text};{Prezzonuovo.Text};1;0;".PadRight(riempi - 4) + "##";
+                        byte[] bytes = Encoding.UTF8.GetBytes(line);
+                        writer.Write(bytes, 0, bytes.Length);
+                        writer.Close();
+                        file.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("I caratteri inseriti nel prezzo non sono numeri");
+                    }
+                }
+            }
         }
 
         private void D(object sender, EventArgs e)
         {
-            int indice = ricercaindice(Proddacanc.Text);
-            string[] prodotto = ricercaprod(Proddacanc.Text);
-            string line;
-            var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-            BinaryWriter writer = new BinaryWriter(file);
-            file.Seek(riempi * indice, SeekOrigin.Begin);
-            line = $"{prodotto[0]};{prodotto[1]};{prodotto[3]};1;".PadRight(riempi - 4) + "##";
-            byte[] bytes = Encoding.UTF8.GetBytes(line);
-            writer.Write(bytes, 0, bytes.Length);
-            writer.Close();
-            writer.Close();
-            file.Close();
+            if(Proddacanc.Text==String.Empty)
+            {
+                MessageBox.Show("Inserisci un prodotto da cancellare");
+            }
+            else if (ricercaindice(Proddacanc.Text) == -1)
+            {
+                MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia all'interno del file");
+            }
+            else 
+            {
+                int indice = ricercaindice(Proddacanc.Text);
+                string[] prodotto = ricercaprod(Proddacanc.Text);
+                string line;
+                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
+                BinaryWriter writer = new BinaryWriter(file);
+                file.Seek(riempi * indice, SeekOrigin.Begin);
+                line = $"{prodotto[0]};{prodotto[1]};{prodotto[3]};1;".PadRight(riempi - 4) + "##";
+                byte[] bytes = Encoding.UTF8.GetBytes(line);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Close();
+                writer.Close();
+                file.Close();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -217,12 +253,11 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void Cancellfisica_Click(object sender, EventArgs e)
         {
-                int x = ricercaindice(Prodcancfis.Text);
                 if (Prodcancfis.Text == string.Empty)
                 {
                     MessageBox.Show("Inserisci un elemento da cancellare");
                 }
-                else if (x == -1)
+                else if (ricercaindice(Prodcancfis.Text) == -1)
                 {
                     MessageBox.Show("L'elemento non è stato trovato");
                 }
@@ -267,19 +302,26 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void Recupera_Click(object sender, EventArgs e)
         {
-            int indice=(ricercaindicedarecu(proddarecu.Text));
-            string[] prodotto = ricercaproddarecu(proddarecu.Text);
-            string line;
-            var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-            BinaryWriter writer = new BinaryWriter(file);
-            file.Seek(riempi * indice, SeekOrigin.Begin);
-            line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##";
-            byte[] bytes = Encoding.UTF8.GetBytes(line);
-            writer.Write(bytes, 0, bytes.Length);
-            writer.Close();
-            file.Close();
+            if (ricercaindicedarecu(proddarecu.Text) == -1)
+            {
+                MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
+            }
+            else
+            {
+                int indice = (ricercaindicedarecu(proddarecu.Text));
+                string[] prodotto = ricercaproddarecu(proddarecu.Text);
+                string line;
+                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
+                BinaryWriter writer = new BinaryWriter(file);
+                file.Seek(riempi * indice, SeekOrigin.Begin);
+                line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##";
+                byte[] bytes = Encoding.UTF8.GetBytes(line);
+                writer.Write(bytes, 0, bytes.Length);
+                writer.Close();
+                file.Close();
+            }
         }
     }
-    }
+}
 
 
