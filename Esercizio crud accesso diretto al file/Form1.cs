@@ -207,10 +207,12 @@ namespace Esercizio_crud_accesso_diretto_al_file
             if (trovato == -1) //Condizione nella quale il prodotto non è presente nel file
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
+                Ricercato.Clear();
             }
             else //Condizione nella quale il prodotto è presente nel file
             {
                 MessageBox.Show("Il prodotto si trova nella riga " + trovato);
+                Ricercato.Clear();
             }
         }
 
@@ -225,6 +227,8 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 if (ricercaindice(Prodvecchio.Text) == -1) //Condizione nella quale il prodotto da modificare non è stato trovato
                 {
                     MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
+                    Prodvecchio.Clear();
+                    Prezzonuovo.Clear();
                 }
                 else
                 {
@@ -241,10 +245,13 @@ namespace Esercizio_crud_accesso_diretto_al_file
                         writer.Write(bytes, 0, bytes.Length); //Scrittura della riga stessa
                         writer.Close(); //Chiusura del BinaryWriter
                         file.Close(); //Chiusura del file
+                        Prodvecchio.Clear();
+                        Prezzonuovo.Clear();
                     }
                     else
                     {
                         MessageBox.Show("I caratteri inseriti nel prezzo non sono numeri");
+                        Prezzonuovo.Clear();
                     }
                 }
             }
@@ -259,6 +266,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
             else if (ricercaindice(Proddacanc.Text) == -1) //Condizione nella quale il prodotto da cancellare non è stato trovato
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia all'interno del file");
+                Proddacanc.Clear();
             }
             else 
             {
@@ -274,6 +282,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 writer.Close(); //Chiusura del BinaryWriter
                 writer.Close();
                 file.Close(); //Chiusura del file
+                Proddacanc.Clear();
             }
         }
 
@@ -291,6 +300,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 else if (ricercaindice(Prodcancfis.Text) == -1) //Condizione nella quale il prodotto da cancellare non è stato trovato
                 {
                     MessageBox.Show("L'elemento non è stato trovato");
+                    Prodcancfis.Clear();
                 }
                 else
                 {
@@ -313,6 +323,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                         sws.WriteLine(linea[i]); //Scrittura di ogni linea
                     }
                     sws.Close(); //Chiusura del file
+                    Prodcancfis.Clear(); 
                 }
 
         }
@@ -336,6 +347,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
             if (ricercaindicedarecu(proddarecu.Text) == -1) //Condizione nella quale il prodotto da recuperare non è stato trovato 
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
+                proddarecu.Clear();
             }
             else
             {
@@ -350,7 +362,13 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 writer.Write(bytes, 0, bytes.Length); //Chiusura del BinaryWriter
                 writer.Close();
                 file.Close(); //Chiusura del file
+                proddarecu.Clear();
             }
+        }
+
+        private void Proddacanc_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
