@@ -172,29 +172,6 @@ namespace Esercizio_crud_accesso_diretto_al_file
             }
             return -1;
         }
-
-        private void UpdateQuantita(string filePath, int riga, int nuovaQuantita)
-        {
-            string[] linee = File.ReadAllLines(filePath);
-            linee[riga] = linee[riga].Replace(linee[riga].Split(';')[2], nuovaQuantita.ToString());
-
-            var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read);
-            StreamWriter sw = new StreamWriter(file);
-            sw.Write(string.Empty);
-            sw.Close();
-
-            var files = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-            StreamWriter sws = new StreamWriter(files);
-
-            foreach (string linea in linee)
-            {
-                sws.WriteLine(linea);
-            }
-            MessageBox.Show("Prodotto inserito piú volte con successo.");
-            sws.Close();
-        }
-
-
         private void C(object sender, EventArgs e)
         {
             double prezzo;
