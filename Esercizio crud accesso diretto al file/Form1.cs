@@ -18,80 +18,80 @@ namespace Esercizio_crud_accesso_diretto_al_file
 {
     public partial class Form1 : Form
     {
-        public struct Prezzoprodotto
+        public struct Prezzoprodotto //Inizializzazione della struct
         {
             public string prodotto;
             public double prezzo;
         }
 
-        public Prezzoprodotto[] p = new Prezzoprodotto[100];
+        public Prezzoprodotto[] p = new Prezzoprodotto[100]; //Dichiarazione array di struct
         public int dim = 0;
-        public string filePath = "file.txt";
-        public int riempi = 64;
+        public string filePath = "file.txt"; //Dichiarazione variabile necessaria per richiamare il percorso del file
+        public int riempi = 64; //Dichiarazione lunghezza dei vari record
         public Form1()
         {
             InitializeComponent();
         }
 
-        public void Aggiunta(string nome, double prezzo, string filePath)
+        public void Aggiunta(string nome, double prezzo, string filePath) //Implementazione funzione necessaria per aggiungere prodotti nel file
         {
-            string[] lines = File.ReadAllLines(filePath);
-            bool prodottoTrovato = false;
+            string[] lines = File.ReadAllLines(filePath);  //Dichiarazione array delle varie righe nel file
+            bool prodottoTrovato = false; //Dichiarazione booleana
 
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++) //Ciclo di scorrimento per controllare se il prodotto nella textbox sia già presente nel file 
             {
-                string[] oggetti = lines[i].Split(';');
+                string[] oggetti = lines[i].Split(';'); //Dichiarazione array dei vari campi presenti nel file
 
-                if (oggetti[0] == nome && double.TryParse(oggetti[1], out double existingPrezzo))
+                if (oggetti[0] == nome && double.TryParse(oggetti[1], out double existingPrezzo)) //Condizione verificata qualora il prodotto nella textbox è uguale ad uno nel file
                 {
-                    if (prezzo == existingPrezzo)
+                    if (prezzo == existingPrezzo) //Controllo valore numerico
                     {
-                        int quantita;
-                        if (int.TryParse(oggetti[2], out quantita))
+                        int quantita; //Inizializzazione variabile per la quantità
+                        if (int.TryParse(oggetti[2], out quantita)) //Controllo valore numerico
                         {
-                            quantita++;
-                            lines[i] = $"{nome};{prezzo};{quantita};0;".PadRight(riempi - 4) + "##";
-                            prodottoTrovato = true;
+                            quantita++; //Incremento dellla quantità
+                            lines[i] = $"{nome};{prezzo};{quantita};0;".PadRight(riempi - 4) + "##"; //Cambiamento della riga
+                            prodottoTrovato = true; //Cambiamento della booleana necessario per non entrare nel ciclo della stampa del prodotto sul file
                             break;
                         }
                     }
                 }
             }
 
-            if (!prodottoTrovato)
+            if (!prodottoTrovato) //Condizione nella quale il prodotto non è già presente all'interno del file
             {
-                var apertura = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-                StreamWriter write = new StreamWriter(apertura);
-                write.WriteLine($"{nome};{prezzo};1;0;".PadRight(riempi - 4) + "##");
-                write.Close();
+                var apertura = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read); //Apertura del file
+                StreamWriter write = new StreamWriter(apertura); //Apertura dello streamwriter necessario per scrivere sul file
+                write.WriteLine($"{nome};{prezzo};1;0;".PadRight(riempi - 4) + "##"); //Scrittura della riga sul file
+                write.Close(); //Chiusura dello streamwriter
             }
             else
             {
-                File.WriteAllLines(filePath, lines);
+                File.WriteAllLines(filePath, lines); //Comando necessario per riscrivere la riga del file qualora fosse stato aggiunto un prodotto già presente
             }
         }
 
-        public int ricercaindice(string nome)
+        public int ricercaindice(string nome) //Implementazione funzione necessaria per trovare l'indice del prodotto
         {
-            int riga = 0;
-            using (StreamReader sr = File.OpenText(filePath))
+            int riga = 0; //Dichiarazione della variabile che verrà ritornata qualora verrà trovato l'indice del prodotto 
+            using (StreamReader sr = File.OpenText(filePath)) //Apertura del file
             {
                 string line;
-                while ((line = sr.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null) //Ciclo di scorrimento sino alla fine del file
                 {
-                    string[] dati = line.Split(';');
-                    if (dati[3] == "0" && dati[0] == nome)
+                    string[] dati = line.Split(';'); //Divisione della riga nei vari campi
+                    if (dati[3] == "0" && dati[0] == nome) //Condizioni necessarie per la ricerca dell'indice (il prodotto non deve esser stato cancellato ed il nome deve essere uguale a quello inserito dall'utente)
                     {
-                        sr.Close();
-                        return riga;
+                        sr.Close(); //Chiusura del file
+                        return riga; //Viene ritornato l'indice della riga in questione
                     }
                     riga++;
                 }
             }
-            return -1;
+            return -1; //Viene ritornato -1 qualora il prodotto da cercare non è presente nel file
         }
 
-        public string[] ricercaprod(string nome)
+        public string[] ricercaprod(string nome) //Implementazione funzione necessaria per ritornare il prodotto stesso qualora viene trovato (funzione analoga alla precedente, al posto che ritornare la riga, viene ritornato il nome del prodotto se viene trovato)
         {
             int riga = 0;
             using (StreamReader sr = File.OpenText(filePath))
@@ -113,28 +113,28 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
 
 
-        public int Ricerca(string nome, string filePath)
+        public int Ricerca(string nome, string filePath) //Implementazione funzione ricerca
         {
             int riga = 0;
-            using (StreamReader sr = File.OpenText(filePath))
+            using (StreamReader sr = File.OpenText(filePath)) //Apertura del file
             {
                 string s;
-                while ((s = sr.ReadLine()) != null)
+                while ((s = sr.ReadLine()) != null) //Ciclo di scorrimento sino alla fine del file
                 {
-                    string[] dati = s.Split(';');
-                    if (dati[3] == "0" && dati[0] == nome)
+                    string[] dati = s.Split(';'); //Divisione della riga nei vari campi
+                    if (dati[3] == "0" && dati[0] == nome) //Condizioni necessarie per la ricerca dell'indice (il prodotto non deve esser stato cancellato ed il nome deve essere uguale a quello inserito dall'utente)
                     {
-                        sr.Close();
-                        return riga;
+                        sr.Close(); //Chiusura del file
+                        return riga; //Viene ritornato l'indice della riga in questione
                     }
                     riga++;
                 }
                 sr.Close();
             }
-            return -1;
+            return -1; //Viene ritornato -1 qualora il prodotto da cercare non è presente nel file
         }
 
-        public string[] ricercaproddarecu(string nome)
+        public string[] ricercaproddarecu(string nome) //Funzione analoga a ricercaprod, solamente il valore nel quarto campo (dati[3]) deve essere pari ad 1, quindi cancellato logicamente
         {
             int riga = 0;
             using (StreamReader sr = File.OpenText(filePath))
@@ -153,7 +153,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
             }
             return null;
         }
-        public int ricercaindicedarecu(string nome)
+        public int ricercaindicedarecu(string nome) //Funzione analoga a ricercaindice, solamente il valore nel quarto campo (dati[3]) deve essere pari ad 1, quindi cancellato logicamente
         {
             int riga = 0;
             using (StreamReader sr = File.OpenText(filePath))
@@ -175,19 +175,21 @@ namespace Esercizio_crud_accesso_diretto_al_file
         private void C(object sender, EventArgs e)
         {
             double prezzo;
-            if (Prodotto.Text == String.Empty)
+            if (Prodotto.Text == String.Empty) //Controllo textbox del prodotto vuota
             {
                 MessageBox.Show("Inserisci un prodotto all'interno della textbox");
             }
             else
             {
-                if (double.TryParse(Prezzo.Text, out prezzo)) //Inserimento del prezzo con controllo sul valore numerico
+                if (double.TryParse(Prezzo.Text, out prezzo)) //Controllo sul valore numerico
                 {
-                    if (Prodotto.Text != "")
+                    if (Prodotto.Text != "") //Controllo textbox del prezzo vuota
                     {
                         p[dim].prodotto = Prodotto.Text;
                         p[dim].prezzo = prezzo;
                         Aggiunta(p[dim].prodotto, p[dim].prezzo, filePath);
+                        Prodotto.Clear();
+                        Prezzo.Clear();
                         dim++;
                     }
                 }
@@ -202,11 +204,11 @@ namespace Esercizio_crud_accesso_diretto_al_file
         {
             string a = Ricercato.Text;
             int trovato = Ricerca(a, filePath);
-            if (trovato == -1)
+            if (trovato == -1) //Condizione nella quale il prodotto non è presente nel file
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
             }
-            else
+            else //Condizione nella quale il prodotto è presente nel file
             {
                 MessageBox.Show("Il prodotto si trova nella riga " + trovato);
             }
@@ -214,31 +216,31 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void Modif(object sender, EventArgs e)
         {
-            if (Prodvecchio.Text == String.Empty)
+            if (Prodvecchio.Text == String.Empty) //Condizione nella quale la textbox del prodotto da modificare è vuota
             {
                 MessageBox.Show("Inserisci un prodotto da modificare");
             }
             else
             {
-                if (ricercaindice(Prodvecchio.Text) == -1)
+                if (ricercaindice(Prodvecchio.Text) == -1) //Condizione nella quale il prodotto da modificare non è stato trovato
                 {
                     MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
                 }
                 else
                 {
                     double prezzo;
-                    if (double.TryParse(Prezzonuovo.Text, out prezzo))
+                    if (double.TryParse(Prezzonuovo.Text, out prezzo)) //Condizione nella quale il nuovo prezzo sia un valore numerico
                     {
-                        int indice = ricercaindice(Prodvecchio.Text);
+                        int indice = ricercaindice(Prodvecchio.Text); //Inizializzazione dell'indice del prodotto da modificare
                         string line;
-                        var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-                        BinaryWriter writer = new BinaryWriter(file);
-                        file.Seek(riempi * indice, SeekOrigin.Begin);
-                        line = $"{Prodnuovo.Text};{Prezzonuovo.Text};1;0;".PadRight(riempi - 4) + "##";
-                        byte[] bytes = Encoding.UTF8.GetBytes(line);
-                        writer.Write(bytes, 0, bytes.Length);
-                        writer.Close();
-                        file.Close();
+                        var file = new FileStream(filePath, FileMode.Open, FileAccess.Write); //Apertura del file
+                        BinaryWriter writer = new BinaryWriter(file); //Apertura del file in scrittura binaria
+                        file.Seek(riempi * indice, SeekOrigin.Begin); //Ricerca della riga per mezzo del comando seek moltiplicando l'indice per il numero di caratteri per ogni riga
+                        line = $"{Prodnuovo.Text};{Prezzonuovo.Text};1;0;".PadRight(riempi - 4) + "##"; //Modifica della riga
+                        byte[] bytes = Encoding.UTF8.GetBytes(line); //Creazione della riga divisa nei vari bytes
+                        writer.Write(bytes, 0, bytes.Length); //Scrittura della riga stessa
+                        writer.Close(); //Chiusura del BinaryWriter
+                        file.Close(); //Chiusura del file
                     }
                     else
                     {
@@ -250,28 +252,28 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void D(object sender, EventArgs e)
         {
-            if(Proddacanc.Text==String.Empty)
+            if(Proddacanc.Text==String.Empty) //Condizione nella quale la textbox del prodotto da cancellare è vuota
             {
                 MessageBox.Show("Inserisci un prodotto da cancellare");
             }
-            else if (ricercaindice(Proddacanc.Text) == -1)
+            else if (ricercaindice(Proddacanc.Text) == -1) //Condizione nella quale il prodotto da cancellare non è stato trovato
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia all'interno del file");
             }
             else 
             {
-                int indice = ricercaindice(Proddacanc.Text);
-                string[] prodotto = ricercaprod(Proddacanc.Text);
+                int indice = ricercaindice(Proddacanc.Text); //Inizializzazione dell'indice del prodotto da cancellare
+                string[] prodotto = ricercaprod(Proddacanc.Text); //Inizializzazione dell'array dei vari campi del prodotto da cancellare
                 string line;
-                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-                BinaryWriter writer = new BinaryWriter(file);
-                file.Seek(riempi * indice, SeekOrigin.Begin);
-                line = $"{prodotto[0]};{prodotto[1]};{prodotto[3]};1;".PadRight(riempi - 4) + "##";
-                byte[] bytes = Encoding.UTF8.GetBytes(line);
-                writer.Write(bytes, 0, bytes.Length);
+                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write); //Apertura del file
+                BinaryWriter writer = new BinaryWriter(file); //Apertura del file in scrittura binaria
+                file.Seek(riempi * indice, SeekOrigin.Begin); //Ricerca della riga per mezzo del comando seek moltiplicando l'indice per il numero di caratteri per ogni riga
+                line = $"{prodotto[0]};{prodotto[1]};{prodotto[3]};1;".PadRight(riempi - 4) + "##"; //Creazione della riga cancellata logicamente
+                byte[] bytes = Encoding.UTF8.GetBytes(line); //Scrittura della riga stessa
+                writer.Write(bytes, 0, bytes.Length); //Scrittura della riga stessa
+                writer.Close(); //Chiusura del BinaryWriter
                 writer.Close();
-                writer.Close();
-                file.Close();
+                file.Close(); //Chiusura del file
             }
         }
 
@@ -282,72 +284,72 @@ namespace Esercizio_crud_accesso_diretto_al_file
 
         private void Cancellfisica_Click(object sender, EventArgs e)
         {
-                if (Prodcancfis.Text == string.Empty)
+                if (Prodcancfis.Text == string.Empty) //Condizione nella quale la textbox del prodotto da cancellare è vuota
                 {
                     MessageBox.Show("Inserisci un elemento da cancellare");
                 }
-                else if (ricercaindice(Prodcancfis.Text) == -1)
+                else if (ricercaindice(Prodcancfis.Text) == -1) //Condizione nella quale il prodotto da cancellare non è stato trovato
                 {
                     MessageBox.Show("L'elemento non è stato trovato");
                 }
                 else
                 {
-                    int indice = ricercaindice(Prodcancfis.Text);
-                    string[] linea = File.ReadAllLines(filePath);
-                    for (int i = indice; i < linea.Length - 1; i++)
+                    int indice = ricercaindice(Prodcancfis.Text); //Inizializzazione dell'indice del prodotto da cancellare
+                    string[] linea = File.ReadAllLines(filePath); //Inizializzazione array di righe del file
+                    for (int i = indice; i < linea.Length - 1; i++) //Scorrimento delle varie righe di una posizione indietro in seguito all'elemento da cancellare
                     {
                         linea[i] = linea[i + 1];
                     }
 
-                    var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read);
-                    StreamWriter sw = new StreamWriter(file);
-                    sw.Write(string.Empty);
+                    var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read); //Apertura del file
+                    StreamWriter sw = new StreamWriter(file); //Apertura del file in scrittura
+                    sw.Write(string.Empty); 
                     sw.Close();
 
-                    var files = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read);
-                    StreamWriter sws = new StreamWriter(files);
-                    for (int i = 0; i < linea.Length - 1; i++)
+                    var files = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read); //Apertura del file
+                    StreamWriter sws = new StreamWriter(files); //Apertura del file in scrittura
+                    for (int i = 0; i < linea.Length - 1; i++) //Ciclo di scorrimento del file
                     {
-                        sws.WriteLine(linea[i]);
+                        sws.WriteLine(linea[i]); //Scrittura di ogni linea
                     }
-                    sws.Close();
+                    sws.Close(); //Chiusura del file
                 }
 
         }
 
         private void Reset_Click(object sender, EventArgs e)
         {
-            var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read);
-            StreamWriter sw = new StreamWriter(file);
-            sw.Write(string.Empty);
-            sw.Close();
+            var file = new FileStream(filePath, FileMode.Truncate, FileAccess.Write, FileShare.Read); //Apertura del file
+            StreamWriter sw = new StreamWriter(file); //Apertura del file in scrittura
+            sw.Write(string.Empty); //Cancellazione di tutto ciò che è scritto sul file
+            sw.Close(); //Chiusura del file
         }
 
         private void Apri_Click(object sender, EventArgs e)
         {
-            string percorso = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), filePath);
-            Process.Start(percorso);
+            string percorso = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), filePath); //Dichiarazione percorso (variabile necessaria per il processo di apertura del file)
+            Process.Start(percorso); //Avvio del processo "percorso"
         }
 
         private void Recupera_Click(object sender, EventArgs e)
         {
-            if (ricercaindicedarecu(proddarecu.Text) == -1)
+            if (ricercaindicedarecu(proddarecu.Text) == -1) //Condizione nella quale il prodotto da recuperare non è stato trovato 
             {
                 MessageBox.Show("Il prodotto non è stato trovato, assicurati che sia presente all'interno del file");
             }
             else
             {
-                int indice = (ricercaindicedarecu(proddarecu.Text));
-                string[] prodotto = ricercaproddarecu(proddarecu.Text);
+                int indice = (ricercaindicedarecu(proddarecu.Text)); //Inizializzazione dell'indice del prodotto da recuperare
+                string[] prodotto = ricercaproddarecu(proddarecu.Text); //Inizializzazione dell'array dei vari campi del prodotto da recuperare
                 string line;
-                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write);
-                BinaryWriter writer = new BinaryWriter(file);
-                file.Seek(riempi * indice, SeekOrigin.Begin);
-                line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##";
-                byte[] bytes = Encoding.UTF8.GetBytes(line);
-                writer.Write(bytes, 0, bytes.Length);
+                var file = new FileStream(filePath, FileMode.Open, FileAccess.Write); //Apertura del file
+                BinaryWriter writer = new BinaryWriter(file); //Apertura del file in scrittura binaria
+                file.Seek(riempi * indice, SeekOrigin.Begin); //Ricerca della riga per mezzo del comando seek moltiplicando l'indice per il numero di caratteri per ogni riga
+                line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##"; //Creazione della riga recuperata
+                byte[] bytes = Encoding.UTF8.GetBytes(line); //Scrittura della riga stessa
+                writer.Write(bytes, 0, bytes.Length); //Chiusura del BinaryWriter
                 writer.Close();
-                file.Close();
+                file.Close(); //Chiusura del file
             }
         }
     }
