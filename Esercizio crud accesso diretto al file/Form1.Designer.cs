@@ -197,7 +197,6 @@
             this.Proddacanc.Name = "Proddacanc";
             this.Proddacanc.Size = new System.Drawing.Size(100, 20);
             this.Proddacanc.TabIndex = 16;
-            this.Proddacanc.TextChanged += new System.EventHandler(this.Proddacanc_TextChanged);
             // 
             // button3
             // 

@@ -365,11 +365,6 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 proddarecu.Clear();
             }
         }
-
-        private void Proddacanc_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 
