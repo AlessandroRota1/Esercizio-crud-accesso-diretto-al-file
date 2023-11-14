@@ -191,6 +191,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                         Prodotto.Clear();
                         Prezzo.Clear();
                         dim++;
+                        MessageBox.Show("Aggiunta avvenuta con successo");
                     }
                 }
                 else
