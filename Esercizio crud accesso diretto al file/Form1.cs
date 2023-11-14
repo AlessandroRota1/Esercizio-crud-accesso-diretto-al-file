@@ -28,6 +28,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
         public int dim = 0;
         public string filePath = "file.txt"; //Dichiarazione variabile necessaria per richiamare il percorso del file
         public int riempi = 64; //Dichiarazione lunghezza dei vari record
+        public int quantitàglobale;
         public Form1()
         {
             InitializeComponent();
@@ -52,6 +53,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                             quantita++; //Incremento dellla quantità
                             lines[i] = $"{nome};{prezzo};{quantita};0;".PadRight(riempi - 4) + "##"; //Cambiamento della riga
                             prodottoTrovato = true; //Cambiamento della booleana necessario per non entrare nel ciclo della stampa del prodotto sul file
+                            quantitàglobale = quantita;
                             break;
                         }
                     }
@@ -248,6 +250,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                         file.Close(); //Chiusura del file
                         Prodvecchio.Clear();
                         Prezzonuovo.Clear();
+                        MessageBox.Show("Modifica avvenuta con successo");
                     }
                     else
                     {
@@ -277,13 +280,14 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 var file = new FileStream(filePath, FileMode.Open, FileAccess.Write); //Apertura del file
                 BinaryWriter writer = new BinaryWriter(file); //Apertura del file in scrittura binaria
                 file.Seek(riempi * indice, SeekOrigin.Begin); //Ricerca della riga per mezzo del comando seek moltiplicando l'indice per il numero di caratteri per ogni riga
-                line = $"{prodotto[0]};{prodotto[1]};{prodotto[3]};1;".PadRight(riempi - 4) + "##"; //Creazione della riga cancellata logicamente
+                line = $"{prodotto[0]};{prodotto[1]};{quantitàglobale};1;".PadRight(riempi - 4) + "##"; //Creazione della riga cancellata logicamente
                 byte[] bytes = Encoding.UTF8.GetBytes(line); //Scrittura della riga stessa
                 writer.Write(bytes, 0, bytes.Length); //Scrittura della riga stessa
                 writer.Close(); //Chiusura del BinaryWriter
                 writer.Close();
                 file.Close(); //Chiusura del file
                 Proddacanc.Clear();
+                MessageBox.Show("Cancellazione logica avvenuta con successo");
             }
         }
 
@@ -324,7 +328,8 @@ namespace Esercizio_crud_accesso_diretto_al_file
                         sws.WriteLine(linea[i]); //Scrittura di ogni linea
                     }
                     sws.Close(); //Chiusura del file
-                    Prodcancfis.Clear(); 
+                    Prodcancfis.Clear();
+                    MessageBox.Show("Cancellazione fisica avvenuta con successo");
                 }
 
         }
@@ -335,6 +340,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
             StreamWriter sw = new StreamWriter(file); //Apertura del file in scrittura
             sw.Write(string.Empty); //Cancellazione di tutto ciò che è scritto sul file
             sw.Close(); //Chiusura del file
+            MessageBox.Show("File ripristinato correttamente");
         }
 
         private void Apri_Click(object sender, EventArgs e)
@@ -358,12 +364,13 @@ namespace Esercizio_crud_accesso_diretto_al_file
                 var file = new FileStream(filePath, FileMode.Open, FileAccess.Write); //Apertura del file
                 BinaryWriter writer = new BinaryWriter(file); //Apertura del file in scrittura binaria
                 file.Seek(riempi * indice, SeekOrigin.Begin); //Ricerca della riga per mezzo del comando seek moltiplicando l'indice per il numero di caratteri per ogni riga
-                line = $"{prodotto[0]};{prodotto[1]};1;0;".PadRight(riempi - 4) + "##"; //Creazione della riga recuperata
+                line = $"{prodotto[0]};{prodotto[1]};{quantitàglobale};0;".PadRight(riempi - 4) + "##"; //Creazione della riga recuperata
                 byte[] bytes = Encoding.UTF8.GetBytes(line); //Scrittura della riga stessa
                 writer.Write(bytes, 0, bytes.Length); //Chiusura del BinaryWriter
                 writer.Close();
                 file.Close(); //Chiusura del file
                 proddarecu.Clear();
+                MessageBox.Show("Recupero avvenuto con successo");
             }
         }
     }
