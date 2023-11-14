@@ -28,7 +28,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
         public int dim = 0;
         public string filePath = "file.txt"; //Dichiarazione variabile necessaria per richiamare il percorso del file
         public int riempi = 64; //Dichiarazione lunghezza dei vari record
-        public int quantitàglobale;
+        public int quantitàglobale; //Dichiarazione variabile necessaria per mantenere la quantità anche dopo il recupera
         public Form1()
         {
             InitializeComponent();
@@ -53,7 +53,7 @@ namespace Esercizio_crud_accesso_diretto_al_file
                             quantita++; //Incremento dellla quantità
                             lines[i] = $"{nome};{prezzo};{quantita};0;".PadRight(riempi - 4) + "##"; //Cambiamento della riga
                             prodottoTrovato = true; //Cambiamento della booleana necessario per non entrare nel ciclo della stampa del prodotto sul file
-                            quantitàglobale = quantita;
+                            quantitàglobale = quantita; //Assegnazione della quantità alla variabile che verrà mantenuta all'interno del recupera
                             break;
                         }
                     }
